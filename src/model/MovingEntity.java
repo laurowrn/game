@@ -3,8 +3,13 @@ package model;
 import java.util.Random;
 
 public abstract class MovingEntity extends Entity implements Movable {
-    private Direction direction;
+    private Direction direction = Direction.RIGHT;
     private int step;
+
+     public MovingEntity(int step) {
+		super();
+		this.step = step;
+	}
     
     @Override
     public void move() {

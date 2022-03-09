@@ -6,13 +6,15 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.*;
+import utils.Constants;
 
 public class Player extends MovingEntity {
     private int id;
     private BufferedImage image;
 
-    public Player(int x, int y) {
-
+     public Player(int x, int y) {
+    	super(Constants.stepPlayer);
+    	
         try {
             image = ImageIO
                     .read(new File("src/assets/player.png"));

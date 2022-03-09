@@ -9,4 +9,6 @@ public class Constants {
     public final static int battlefieldWidth = (int) Math.floor(0.7 * Constants.windowWidth);
     public final static int battlefieldHeight = (int) Math.floor(0.9 * Constants.windowHeight);
 
+    // PLAYER CONSTANTS
+    public final static int stepPlayer = 1;
 }
