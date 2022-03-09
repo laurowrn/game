@@ -11,4 +11,7 @@ public class Constants {
 
     // PLAYER CONSTANTS
     public final static int stepPlayer = 1;
+
+    // GAME CONSTANTS
+    public final static int refreshTime = 10;
 }
