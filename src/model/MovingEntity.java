@@ -5,16 +5,17 @@ import java.util.Date;
 import utils.Constants;
 
 public abstract class MovingEntity extends Entity implements Movable {
-    private Direction direction = Direction.RIGHT;
-    private int step;
+    protected Direction direction = Direction.RIGHT;
+    protected int step;
 
     public MovingEntity(int step) {
         super();
         this.step = step;
+        this.direction = getRandomDirection();
     }
 
     @Override
-    public void move() {
+    public void move(int step) {
         switch (direction) {
         case UP:
             this.y = this.y - step;
@@ -33,33 +34,35 @@ public abstract class MovingEntity extends Entity implements Movable {
     }
 
     @Override
-    public void changeToRandomDirection() {
-        Direction newDirection = direction;
+    public Direction getRandomDirection() {
+        Direction newDirection = this.direction;
         Random rand = new Random();
         while (newDirection == direction)
             newDirection = Direction.values()[rand.nextInt(Direction.values().length)];
-        direction = newDirection;
+        return newDirection;
     }
 
-    public void checkCollisionWith(Player player) {
-        if (this.intersects(player)) {
-            this.changeToRandomDirection();
-            player.changeToRandomDirection();
+    public Direction getOppositeDirection(Direction direction) {
+        switch (direction) {
+        case UP:
+            return Direction.DOWN;
+        case DOWN:
+            return Direction.UP;
+        case RIGHT:
+            return Direction.LEFT;
+        case LEFT:
+            return Direction.RIGHT;
+        default:
+            return Direction.RIGHT;
         }
     }
 
-    public void checkCollisionWith(Obstacle obstacle) {
-        if (this.intersects(obstacle)) {
-            this.changeToRandomDirection();
-        }
+    protected void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
-    public void checkCollisionWith(Battlefield battlefield) {
-        if (this.x <= battlefield.getX() || this.y <= battlefield.getY()
-                || this.x + this.width >= battlefield.getX() + battlefield.getWidth()
-                || this.y + this.height >= battlefield.getY() + battlefield.getHeight()) {
-
-            this.changeToRandomDirection();
-        }
+    protected Direction getDirection() {
+        return direction;
     }
+
 }

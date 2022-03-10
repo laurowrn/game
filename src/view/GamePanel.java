@@ -72,7 +72,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   private void moveAll() {
     for (int i = 0; i < players.size(); i++) {
-      players.get(i).move();
+      players.get(i).move(Constants.stepPlayer);
     }
     refreshEntities();
   }

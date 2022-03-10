@@ -1,7 +1,7 @@
 package model;
 
 public interface Movable {
-    public void move();
+    public void move(int step);
 
-    public void changeToRandomDirection();
+    public Direction getRandomDirection();
 }
