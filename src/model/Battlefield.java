@@ -2,7 +2,7 @@ package model;
 
 import java.awt.*;
 
-public class Battlefield extends Entity {
+public class Battlefield extends StaticEntity {
 
     public Battlefield(int x, int y, int width, int height) {
         this.x = x;

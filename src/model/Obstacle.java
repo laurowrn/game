@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.*;
 
-public class Obstacle extends Entity {
+public class Obstacle extends StaticEntity {
     private BufferedImage image;
     private String path;
 
