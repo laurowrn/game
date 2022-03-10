@@ -7,11 +7,28 @@ import utils.Constants;
 public abstract class MovingEntity extends Entity implements Movable {
     protected Direction direction = Direction.RIGHT;
     protected int step;
+    protected int energy;
 
     public MovingEntity(int step) {
         super();
         this.step = step;
         this.direction = getRandomDirection();
+    }
+
+    protected void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    protected Direction getDirection() {
+        return direction;
+    }
+
+    protected void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
+    public int getEnergy() {
+        return this.energy;
     }
 
     @Override
@@ -42,6 +59,7 @@ public abstract class MovingEntity extends Entity implements Movable {
         return newDirection;
     }
 
+    @Override
     public Direction getOppositeDirection(Direction direction) {
         switch (direction) {
         case UP:
@@ -55,14 +73,6 @@ public abstract class MovingEntity extends Entity implements Movable {
         default:
             return Direction.RIGHT;
         }
-    }
-
-    protected void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    protected Direction getDirection() {
-        return direction;
     }
 
 }

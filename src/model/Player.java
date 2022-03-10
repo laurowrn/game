@@ -9,11 +9,13 @@ import java.awt.*;
 import utils.Constants;
 
 public class Player extends MovingEntity {
-    private int id;
     private BufferedImage image;
+    private int ricochetStep;
 
     public Player(int x, int y) {
-        super(Constants.stepPlayer);
+        super(Constants.playerStep);
+        this.energy = Constants.playerEnergy;
+        this.ricochetStep = Constants.playerRicochetStep;
 
         try {
             image = ImageIO.read(new File("src/assets/player.png"));
@@ -27,23 +29,31 @@ public class Player extends MovingEntity {
         this.height = image.getHeight();
     }
 
+    private void loseEnergy(int energyLoss) {
+        this.setEnergy(this.energy - energyLoss);
+    }
+
     public void checkCollisionWith(Player player) {
         if (this.intersects(player)) {
             this.setDirection(getOppositeDirection(this.direction));
-            this.move(this.step + 2);
+            this.move(this.step + ricochetStep);
             this.setDirection(this.getRandomDirection());
 
             player.setDirection(getOppositeDirection(player.getDirection()));
-            player.move(this.step + 2);
+            player.move(this.step + ricochetStep);
             this.setDirection(this.getRandomDirection());
+
+            this.loseEnergy(Constants.collisioWithPlayerLoss);
+            player.loseEnergy(Constants.collisioWithPlayerLoss);
         }
     }
 
     public void checkCollisionWith(Obstacle obstacle) {
         if (this.intersects(obstacle)) {
             this.setDirection(getOppositeDirection(this.direction));
-            this.move(this.step + 2);
+            this.move(this.step + ricochetStep);
             this.setDirection(this.getRandomDirection());
+            this.loseEnergy(Constants.collisioWithObstacleLoss);
         }
     }
 
@@ -53,7 +63,7 @@ public class Player extends MovingEntity {
                 || this.y + this.height >= battlefield.getY() + battlefield.getHeight()) {
 
             this.setDirection(getOppositeDirection(this.direction));
-            this.move(this.step + 2);
+            this.move(this.step + ricochetStep);
             this.setDirection(this.getRandomDirection());
         }
     }
@@ -62,7 +72,7 @@ public class Player extends MovingEntity {
 
         g.drawImage(image, x, y, null);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        g.drawString(Integer.toString(id), x + 15, y + ((int) this.getHeight()) + 20);
+        g.drawString(Integer.toString(this.energy), x + 15, y + ((int) this.getHeight()) + 20);
 
     }
 }

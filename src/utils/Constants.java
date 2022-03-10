@@ -10,8 +10,12 @@ public class Constants {
     public final static int battlefieldHeight = (int) Math.floor(0.9 * Constants.windowHeight);
 
     // PLAYER CONSTANTS
-    public final static int stepPlayer = 1;
+    public final static int playerStep = 1;
+    public final static int playerRicochetStep = 3;
+    public final static int playerEnergy = 50;
 
     // GAME CONSTANTS
     public final static int refreshTime = 10;
+    public final static int collisioWithPlayerLoss = 1;
+    public final static int collisioWithObstacleLoss = 2;
 }

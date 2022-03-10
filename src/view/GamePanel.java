@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
     while (true) {
       moveAll();
       checkCollisions();
+      removeDeadPlayers();
       this.repaint();
 
       try {
@@ -72,7 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   private void moveAll() {
     for (int i = 0; i < players.size(); i++) {
-      players.get(i).move(Constants.stepPlayer);
+      players.get(i).move(Constants.playerStep);
     }
     refreshEntities();
   }
@@ -87,6 +88,14 @@ public class GamePanel extends JPanel implements Runnable {
         if (j != i) {
           players.get(i).checkCollisionWith(players.get(j));
         }
+      }
+    }
+  }
+
+  private void removeDeadPlayers() {
+    for (int i = 0; i < players.size(); i++) {
+      if (players.get(i).getEnergy() <= 0) {
+        players.remove(i);
       }
     }
   }
