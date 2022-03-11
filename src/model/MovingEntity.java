@@ -19,7 +19,7 @@ public abstract class MovingEntity extends Entity implements Movable {
         this.direction = direction;
     }
 
-    protected Direction getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 
@@ -29,6 +29,10 @@ public abstract class MovingEntity extends Entity implements Movable {
 
     public int getEnergy() {
         return this.energy;
+    }
+
+    protected void loseEnergy(int energyLoss) {
+        this.setEnergy(this.energy - energyLoss);
     }
 
     @Override
@@ -50,7 +54,6 @@ public abstract class MovingEntity extends Entity implements Movable {
 
     }
 
-    @Override
     public Direction getRandomDirection() {
         Direction newDirection = this.direction;
         Random rand = new Random();
@@ -59,7 +62,6 @@ public abstract class MovingEntity extends Entity implements Movable {
         return newDirection;
     }
 
-    @Override
     public Direction getOppositeDirection(Direction direction) {
         switch (direction) {
         case UP:

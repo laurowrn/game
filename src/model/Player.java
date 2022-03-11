@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -11,11 +12,15 @@ import utils.Constants;
 public class Player extends MovingEntity {
     private BufferedImage image;
     private int ricochetStep;
+    private int shootingCooldown;
+    private int id;
 
-    public Player(int x, int y) {
+    public Player(int x, int y, int id) {
         super(Constants.playerStep);
         this.energy = Constants.playerEnergy;
         this.ricochetStep = Constants.playerRicochetStep;
+        this.shootingCooldown = Constants.playerShootingCooldown;
+        this.id = id;
 
         try {
             image = ImageIO.read(new File("src/assets/player.png"));
@@ -29,8 +34,16 @@ public class Player extends MovingEntity {
         this.height = image.getHeight();
     }
 
-    private void loseEnergy(int energyLoss) {
-        this.setEnergy(this.energy - energyLoss);
+    private void setShootingCooldown(int shootingCooldown) {
+        this.shootingCooldown = shootingCooldown;
+    }
+
+    public int getShootingCooldown() {
+        return this.shootingCooldown;
+    }
+
+    private void reduceShootingCooldown() {
+        setShootingCooldown(getShootingCooldown() - 1);
     }
 
     public void checkCollisionWith(Player player) {
@@ -45,6 +58,13 @@ public class Player extends MovingEntity {
 
             this.loseEnergy(Constants.collisioWithPlayerLoss);
             player.loseEnergy(Constants.collisioWithPlayerLoss);
+        }
+    }
+
+    public void checkCollisionWith(Bullet bullet) {
+        if (this.intersects(bullet) && bullet.getOwnerId() != this.id) {
+            this.loseEnergy(Constants.collisioWithPlayerLoss);
+            bullet.loseEnergy(Constants.bulletEnergy);
         }
     }
 
@@ -68,6 +88,18 @@ public class Player extends MovingEntity {
         }
     }
 
+    public void shoot(LinkedList<Bullet> shots) {
+        if (this.shootingCooldown == Constants.playerShootingCooldown) {
+            reduceShootingCooldown();
+            shots.add(new Bullet(this.x, this.y, this.direction, Constants.bulletStep, this.id));
+        } else if (this.shootingCooldown < Constants.playerShootingCooldown && this.shootingCooldown != 0) {
+            reduceShootingCooldown();
+        } else {
+            setShootingCooldown(Constants.playerShootingCooldown);
+        }
+
+    }
+
     public void draw(Graphics g) {
 
         g.drawImage(image, x, y, null);
@@ -75,4 +107,5 @@ public class Player extends MovingEntity {
         g.drawString(Integer.toString(this.energy), x + 15, y + ((int) this.getHeight()) + 20);
 
     }
+
 }
