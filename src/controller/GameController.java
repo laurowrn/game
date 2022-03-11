@@ -22,10 +22,10 @@ public class GameController {
 
     public void refreshEntities() {
         LinkedList<Entity> newEntities = new LinkedList<Entity>();
+        newEntities.add(battlefield);
         newEntities.addAll(players);
         newEntities.addAll(obstacles);
         newEntities.addAll(bullets);
-        newEntities.add(battlefield);
         this.entities = newEntities;
     }
 

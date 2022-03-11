@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     for (int i = 0; i < gameController.getEntities().size(); i++) {
-      gameController.getEntities().get(i).draw(g);
+      gameController.getEntities().get(i).draw((Graphics2D) g, this);
     }
   }
 

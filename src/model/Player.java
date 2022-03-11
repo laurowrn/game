@@ -6,9 +6,13 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
 import java.awt.image.BufferedImage;
 import java.awt.*;
 import utils.Constants;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 
 public class Player extends MovingEntity {
     private BufferedImage image;
@@ -106,10 +110,47 @@ public class Player extends MovingEntity {
 
     }
 
-    public void draw(Graphics g) {
+    @Override
+    public void draw(Graphics2D g, JPanel observer) {
+        double rotationRequired = Math.toRadians(0);
+        double locationX = image.getWidth() / 2;
+        double locationY = image.getHeight() / 2;
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationY, locationX);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
-        g.drawImage(image, x, y, null);
+        // g.drawImage(image, x, y, null);
+        // g.drawImage(image, x + width, y, -width, height, observer);
+        // g.drawImage(image, x + width, y + height, -width, -height, observer);
+        if (this.direction == Direction.DOWN) {
+            rotationRequired = Math.toRadians(90);
+            locationX = image.getWidth() / 2;
+            locationY = image.getHeight() / 2;
+            tx = AffineTransform.getRotateInstance(rotationRequired, locationY, locationX);
+            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        } else if (this.direction == Direction.RIGHT) {
+            rotationRequired = Math.toRadians(0);
+            locationX = image.getWidth() / 2;
+            locationY = image.getHeight() / 2;
+            tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        } else if (this.direction == Direction.LEFT) {
+            rotationRequired = Math.toRadians(180);
+            locationX = image.getWidth() / 2;
+            locationY = image.getHeight() / 2;
+            tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        } else if (this.direction == Direction.UP) {
+            rotationRequired = Math.toRadians(270);
+            locationX = image.getWidth() / 2;
+            locationY = image.getHeight() / 2;
+            tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+            op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        }
+
+        g.drawImage(op.filter(image, null), x, y, null);
+
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.setColor(Color.yellow);
         g.drawString(Integer.toString(this.energy), x + 15, y + ((int) this.getHeight()) + 20);
 
     }

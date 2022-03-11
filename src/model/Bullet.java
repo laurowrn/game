@@ -1,6 +1,10 @@
 package model;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.JPanel;
 
 import utils.Constants;
 
@@ -38,7 +42,8 @@ public class Bullet extends MovingEntity {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g, JPanel observer) {
+        g.setColor(Color.black);
         g.fillRect(x, y, width, height);
     }
 
