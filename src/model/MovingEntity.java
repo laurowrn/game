@@ -1,10 +1,8 @@
 package model;
 
 import java.util.Random;
-import java.util.Date;
-import utils.Constants;
 
-public abstract class MovingEntity extends Entity implements Movable {
+public abstract class MovingEntity extends Entity {
     protected Direction direction = Direction.RIGHT;
     protected int step;
     protected int energy;
@@ -35,7 +33,6 @@ public abstract class MovingEntity extends Entity implements Movable {
         this.setEnergy(this.energy - energyLoss);
     }
 
-    @Override
     public void move(int step) {
         switch (direction) {
         case UP:

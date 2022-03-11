@@ -1,11 +1,10 @@
 package model;
 
 import java.io.File;
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Obstacle extends StaticEntity {
     private BufferedImage image;
@@ -15,8 +14,7 @@ public class Obstacle extends StaticEntity {
         this.path = path;
 
         try {
-            image = ImageIO
-                    .read(new File(path));
+            image = ImageIO.read(new File(path));
         } catch (IOException e) {
             e.printStackTrace();
         }

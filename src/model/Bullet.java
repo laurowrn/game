@@ -6,7 +6,6 @@ import utils.Constants;
 
 public class Bullet extends MovingEntity {
     private int ownerId;
-    private int energy;
 
     public Bullet(int x, int y, Direction direction, int step, int ownerId) {
         super(step);
@@ -21,6 +20,21 @@ public class Bullet extends MovingEntity {
 
     public int getOwnerId() {
         return this.ownerId;
+    }
+
+    public void checkCollisionWith(Obstacle obstacle) {
+        if (this.intersects(obstacle)) {
+            this.loseEnergy(Constants.bulletEnergy);
+        }
+    }
+
+    public void checkCollisionWith(Battlefield battlefield) {
+        if (this.x <= battlefield.getX() || this.y <= battlefield.getY()
+                || this.x + this.width >= battlefield.getX() + battlefield.getWidth()
+                || this.y + this.height >= battlefield.getY() + battlefield.getHeight()) {
+
+            this.loseEnergy(Constants.bulletEnergy);
+        }
     }
 
     @Override
