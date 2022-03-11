@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,7 +24,7 @@ public class Player extends MovingEntity {
         this.id = id;
 
         try {
-            image = ImageIO.read(new File("src/assets/player.png"));
+            image = ImageIO.read(new File(generateRandomPlayerTexture()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,6 +33,11 @@ public class Player extends MovingEntity {
         this.y = y;
         this.width = image.getWidth();
         this.height = image.getHeight();
+    }
+
+    private String generateRandomPlayerTexture() {
+        Random rand = new Random();
+        return "src/assets/player/player" + rand.nextInt(3) + ".png";
     }
 
     private void setShootingCooldown(int shootingCooldown) {

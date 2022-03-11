@@ -30,11 +30,12 @@ public class GameController {
     }
 
     public void createEntites() {
+
         this.battlefield = new Battlefield(10, 10, Constants.battlefieldWidth, Constants.battlefieldHeight);
-        this.obstacles.add(new Obstacle(100, 100, "src/assets/obstacle1.jpg"));
-        this.obstacles.add(new Obstacle(800, 800, "src/assets/obstacle2.jpg"));
-        this.obstacles.add(new Obstacle(200, 500, "src/assets/obstacle3.jpg"));
-        this.obstacles.add(new Obstacle(800, 200, "src/assets/obstacle4.jpg"));
+        this.obstacles.add(new Obstacle(100, 100));
+        this.obstacles.add(new Obstacle(800, 800));
+        this.obstacles.add(new Obstacle(200, 500));
+        this.obstacles.add(new Obstacle(800, 200));
 
         this.players.add(new Player(200, 300, 0));
         this.players.add(new Player(300, 300, 1));
@@ -47,6 +48,7 @@ public class GameController {
         this.players.add(new Player(400, 700, 7));
         this.players.add(new Player(500, 700, 8));
         this.players.add(new Player(600, 700, 9));
+
     }
 
     public void allPlayersShoot() {
