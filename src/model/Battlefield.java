@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 public class Battlefield extends StaticEntity {
     private BufferedImage image;
 
-    public Battlefield(int x, int y, int width, int height) {
+    public Battlefield(int x, int y) {
         try {
             image = ImageIO.read(new File(generateRandomObstacleTexture()));
         } catch (IOException e) {

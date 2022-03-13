@@ -31,23 +31,24 @@ public class GameController {
 
     public void createEntites() {
 
-        this.battlefield = new Battlefield(10, 10, Constants.battlefieldWidth, Constants.battlefieldHeight);
+        this.battlefield = new Battlefield(10, 10);
         this.obstacles.add(new Obstacle(100, 100));
-        this.obstacles.add(new Obstacle(800, 800));
-        this.obstacles.add(new Obstacle(200, 500));
-        this.obstacles.add(new Obstacle(800, 200));
+        this.obstacles.add(new Obstacle(600, 100));
+        this.obstacles.add(new Obstacle(100, 500));
+        this.obstacles.add(new Obstacle(600, 500));
+        this.obstacles.add(new Obstacle(350, 350));
 
-        this.players.add(new Player(200, 300, 0));
-        this.players.add(new Player(300, 300, 1));
-        this.players.add(new Player(400, 300, 2));
-        this.players.add(new Player(500, 300, 3));
-        this.players.add(new Player(600, 300, 4));
+        this.players.add(new Player(250, 150, 0));
+        this.players.add(new Player(250, 220, 1));
+        this.players.add(new Player(250, 290, 2));
+        this.players.add(new Player(250, 360, 3));
+        this.players.add(new Player(250, 430, 4));
 
-        this.players.add(new Player(200, 700, 5));
-        this.players.add(new Player(300, 700, 6));
-        this.players.add(new Player(400, 700, 7));
-        this.players.add(new Player(500, 700, 8));
-        this.players.add(new Player(600, 700, 9));
+        this.players.add(new Player(480, 150, 5));
+        this.players.add(new Player(480, 220, 6));
+        this.players.add(new Player(480, 290, 7));
+        this.players.add(new Player(480, 360, 8));
+        this.players.add(new Player(480, 430, 9));
 
     }
 

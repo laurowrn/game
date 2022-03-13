@@ -73,5 +73,4 @@ public abstract class MovingEntity extends Entity {
             return Direction.RIGHT;
         }
     }
-
 }

@@ -98,16 +98,31 @@ public class Player extends MovingEntity {
         }
     }
 
+    public int getBulletX() {
+        if (this.direction == Direction.UP || this.direction == Direction.RIGHT) {
+            return this.x + (int) this.getWidth();
+        } else {
+            return this.x;
+        }
+    }
+
+    public int getBulletY() {
+        if (this.direction == Direction.RIGHT || this.direction == Direction.DOWN) {
+            return this.y + (int) this.getHeight();
+        } else {
+            return this.y;
+        }
+    }
+
     public void shoot(LinkedList<Bullet> shots) {
         if (this.shootingCooldown == Constants.playerShootingCooldown) {
             reduceShootingCooldown();
-            shots.add(new Bullet(this.x, this.y, this.direction, Constants.bulletStep, this.id));
+            shots.add(new Bullet(getBulletX(), getBulletY(), this.direction, Constants.bulletStep, this.id));
         } else if (this.shootingCooldown < Constants.playerShootingCooldown && this.shootingCooldown != 0) {
             reduceShootingCooldown();
         } else {
             setShootingCooldown(Constants.playerShootingCooldown);
         }
-
     }
 
     @Override
@@ -118,15 +133,13 @@ public class Player extends MovingEntity {
         AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationY, locationX);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
-        // g.drawImage(image, x, y, null);
-        // g.drawImage(image, x + width, y, -width, height, observer);
-        // g.drawImage(image, x + width, y + height, -width, -height, observer);
         if (this.direction == Direction.DOWN) {
             rotationRequired = Math.toRadians(90);
             locationX = image.getWidth() / 2;
             locationY = image.getHeight() / 2;
-            tx = AffineTransform.getRotateInstance(rotationRequired, locationY, locationX);
+            tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
             op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
         } else if (this.direction == Direction.RIGHT) {
             rotationRequired = Math.toRadians(0);
             locationX = image.getWidth() / 2;
@@ -146,13 +159,10 @@ public class Player extends MovingEntity {
             tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
             op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         }
-
-        g.drawImage(op.filter(image, null), x, y, null);
+        g.drawImage(op.filter(image, null), x, y, observer);
 
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         g.setColor(Color.yellow);
-        g.drawString(Integer.toString(this.energy), x + 15, y + ((int) this.getHeight()) + 20);
-
+        g.drawString(Integer.toString(this.energy), x + 10, y + ((int) this.getHeight()) + 15);
     }
-
 }
