@@ -2,13 +2,13 @@ package utils;
 
 public class Constants {
     // WINDOW SIZE CONSTANTS
-    public final static int windowWidth = 1000;
-    public final static int windowHeight = 800;
+    public final static int windowWidth = 1100;
+    public final static int windowHeight = 780;
 
     // PLAYER CONSTANTS
     public final static int playerStep = 1;
     public final static int playerRicochetStep = 5;
-    public final static int playerEnergy = 10;
+    public final static int playerEnergy = 20;
     public final static int playerShootingCooldown = 150;
 
     // BULLET CONSTANTS

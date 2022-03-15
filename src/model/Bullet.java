@@ -25,12 +25,14 @@ public class Bullet extends MovingEntity {
         return this.ownerId;
     }
 
+    @Override
     public void checkCollisionWith(Obstacle obstacle) {
         if (this.intersects(obstacle)) {
             this.loseEnergy(Constants.bulletEnergy);
         }
     }
 
+    @Override
     public void checkCollisionWith(Battlefield battlefield) {
         if (this.x <= battlefield.getX() || this.y <= battlefield.getY()
                 || this.x + this.width >= battlefield.getX() + battlefield.getWidth()
@@ -41,20 +43,21 @@ public class Bullet extends MovingEntity {
     }
 
     @Override
+    public void checkCollisionWith(Player player) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void checkCollisionWith(Bullet bullet) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
     public void draw(Graphics2D g, JPanel observer) {
         g.setColor(Color.black);
         g.fillRect(x, y, width, height);
     }
-
-	@Override
-	public void checkCollisionWith(Player player) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void checkCollisionWith(Bullet bullet) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

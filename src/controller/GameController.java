@@ -9,28 +9,20 @@ import model.Bullet;
 import model.Entity;
 import model.Obstacle;
 import model.Player;
-import utils.Constants;
 
 public class GameController {
-	
-    //private LinkedList<Entity> entities = new LinkedList<Entity>();
+
+    // private LinkedList<Entity> entities = new LinkedList<Entity>();
 
     private LinkedList<MovingEntity> movingEntities = new LinkedList<MovingEntity>();
-    private LinkedList<Entity> staticEntities = new LinkedList<Entity>();
-    
+    private LinkedList<StaticEntity> staticEntities = new LinkedList<StaticEntity>();
+
     public LinkedList<Entity> getEntities() {
-    	LinkedList<Entity> entities = new LinkedList<Entity>();
-    	 entities.addAll(staticEntities);
-    	 entities.addAll(movingEntities);
+        LinkedList<Entity> entities = new LinkedList<Entity>();
+        entities.addAll(staticEntities);
+        entities.addAll(movingEntities);
         return entities;
     }
-
-//    public void refreshEntities() {
-//        LinkedList<Entity> newEntities = new LinkedList<Entity>();
-//          newEntities.addAll(staticEntities);
-//          newEntities.addAll(movingEntities);
-//        this.entities = newEntities;
-//    }
 
     public void createEntites() {
         this.staticEntities.add(new Battlefield(10, 10));
@@ -56,50 +48,47 @@ public class GameController {
 
     public void allPlayersShoot() {
         for (int i = 0; i < movingEntities.size(); i++) {
-        	Class<? extends Entity> EntityClass = movingEntities.get(i).getClass();
-        	if (EntityClass == Player.class) {
-        		((Player) movingEntities.get(i)).shoot(this.movingEntities);
-        	}
+            Class<? extends Entity> EntityClass = movingEntities.get(i).getClass();
+            if (EntityClass == Player.class) {
+                ((Player) movingEntities.get(i)).shoot(this.movingEntities);
+            }
         }
     }
 
     public void moveAll() {
-    	 for (int i = 0; i < movingEntities.size(); i++) {
-           movingEntities.get(i).move();
-       }
-       // refreshEntities();
+        for (int i = 0; i < movingEntities.size(); i++) {
+            movingEntities.get(i).move();
+        }
     }
 
-    public void checkCollisions(){
-		for (int i = 0; i < movingEntities.size(); i++) {
-			// checa colisao com entidades estaticas
-			for (int j = 0; j < staticEntities.size(); j++) {
-				Class<? extends Entity> EntityClass = staticEntities.get(j).getClass();
-				if (EntityClass == Battlefield.class) {
-					movingEntities.get(i).checkCollisionWith((Battlefield) staticEntities.get(j));
-				} else if (EntityClass == Obstacle.class) {
-					movingEntities.get(i).checkCollisionWith((Obstacle) staticEntities.get(j));
-				}
-			}
+    public void checkCollisions() {
+        for (int i = 0; i < movingEntities.size(); i++) {
+            for (int j = 0; j < staticEntities.size(); j++) {
+                Class<? extends Entity> EntityClass = staticEntities.get(j).getClass();
+                if (EntityClass == Battlefield.class) {
+                    movingEntities.get(i).checkCollisionWith((Battlefield) staticEntities.get(j));
+                } else if (EntityClass == Obstacle.class) {
+                    movingEntities.get(i).checkCollisionWith((Obstacle) staticEntities.get(j));
+                }
+            }
 
-			// checa colisao com entidades moveis
-			for (int j = i + 1; j < movingEntities.size(); j++) {
-				Class<? extends Entity> EntityClass = movingEntities.get(j).getClass();
-				if (EntityClass == Player.class) {
-					movingEntities.get(i).checkCollisionWith((Player) movingEntities.get(j));
-				} else if (EntityClass == Bullet.class) {
-					movingEntities.get(i).checkCollisionWith((Bullet) movingEntities.get(j));
-				}
-			}
-		}
-	}
+            for (int j = i + 1; j < movingEntities.size(); j++) {
+                Class<? extends Entity> EntityClass = movingEntities.get(j).getClass();
+                if (EntityClass == Player.class) {
+                    movingEntities.get(i).checkCollisionWith((Player) movingEntities.get(j));
+                } else if (EntityClass == Bullet.class) {
+                    movingEntities.get(i).checkCollisionWith((Bullet) movingEntities.get(j));
+                }
+            }
+        }
+    }
 
     public void removeDeadMovingEntities() {
-    	
-    	 for (int i = 0; i < movingEntities.size(); i++) {
-           if (movingEntities.get(i).getEnergy() <= 0) {
-        	   movingEntities.remove(i);
-         }
-       }            
+
+        for (int i = 0; i < movingEntities.size(); i++) {
+            if (movingEntities.get(i).getEnergy() <= 0) {
+                movingEntities.remove(i);
+            }
+        }
     }
 }

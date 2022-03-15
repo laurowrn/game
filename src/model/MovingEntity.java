@@ -73,10 +73,12 @@ public abstract class MovingEntity extends Entity {
             return Direction.RIGHT;
         }
     }
-    
-    //Toda entidade que se move é obrigada a implementar colisões com todas as entidades do jogo
+
     public abstract void checkCollisionWith(Player player);
+
     public abstract void checkCollisionWith(Bullet bullet);
+
     public abstract void checkCollisionWith(Obstacle obstacle);
+
     public abstract void checkCollisionWith(Battlefield battlefield);
 }

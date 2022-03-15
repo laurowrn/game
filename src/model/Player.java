@@ -56,6 +56,7 @@ public class Player extends MovingEntity {
         setShootingCooldown(getShootingCooldown() - 1);
     }
 
+    @Override
     public void checkCollisionWith(Player player) {
         if (this.intersects(player)) {
             this.setDirection(getOppositeDirection(this.direction));
@@ -71,6 +72,7 @@ public class Player extends MovingEntity {
         }
     }
 
+    @Override
     public void checkCollisionWith(Bullet bullet) {
         if (this.intersects(bullet) && bullet.getOwnerId() != this.id) {
             this.loseEnergy(Constants.collisioWithPlayerLoss);
@@ -78,6 +80,7 @@ public class Player extends MovingEntity {
         }
     }
 
+    @Override
     public void checkCollisionWith(Obstacle obstacle) {
         if (this.intersects(obstacle)) {
             this.setDirection(getOppositeDirection(this.direction));
@@ -87,6 +90,7 @@ public class Player extends MovingEntity {
         }
     }
 
+    @Override
     public void checkCollisionWith(Battlefield battlefield) {
         if (this.x <= battlefield.getX() || this.y <= battlefield.getY()
                 || this.x + this.width >= battlefield.getX() + battlefield.getWidth()
@@ -135,39 +139,31 @@ public class Player extends MovingEntity {
 
         if (this.direction == Direction.DOWN) {
             rotationRequired = Math.toRadians(90);
-            locationX = image.getWidth() / 2;
-            locationY = image.getHeight() / 2;
             tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
             op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
         } else if (this.direction == Direction.RIGHT) {
             rotationRequired = Math.toRadians(0);
-            locationX = image.getWidth() / 2;
-            locationY = image.getHeight() / 2;
             tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
             op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         } else if (this.direction == Direction.LEFT) {
             rotationRequired = Math.toRadians(180);
-            locationX = image.getWidth() / 2;
-            locationY = image.getHeight() / 2;
             tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
             op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         } else if (this.direction == Direction.UP) {
             rotationRequired = Math.toRadians(270);
-            locationX = image.getWidth() / 2;
-            locationY = image.getHeight() / 2;
             tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
             op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         }
         g.drawImage(op.filter(image, null), x, y, observer);
 
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        g.setColor(Color.black);
+        g.fillRect(x - 15, y + 20, 15, 20);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 15));
         g.setColor(Color.yellow);
-        g.drawString(Integer.toString(this.energy), x + 10, y + ((int) this.getHeight()) + 15);
+        g.drawString(Integer.toString(this.energy), x - 15, y + 35);
     }
-    
-    //Sobrecarga do metodo move() para adicionar ricochetstep
-    // anda o mesmo que o move() somado a um step adicional addStep
+
     public void move(int addStep) {
         switch (direction) {
         case UP:
