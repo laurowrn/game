@@ -10,7 +10,6 @@ public class GamePanel extends JPanel implements Runnable {
 
   @Override
   public void run() {
-
     gameController.createEntites();
     while (true) {
       gameController.moveAll();
@@ -31,6 +30,8 @@ public class GamePanel extends JPanel implements Runnable {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
+    g.setColor(Color.gray);
+    g.fillRect(0, 0, this.getWidth(), this.getHeight());
     for (int i = 0; i < gameController.getEntities().size(); i++) {
       gameController.getEntities().get(i).draw((Graphics2D) g, this);
     }

@@ -8,7 +8,7 @@ public class Constants {
     // PLAYER CONSTANTS
     public final static int playerStep = 1;
     public final static int playerRicochetStep = 5;
-    public final static int playerEnergy = 20;
+    public final static int playerEnergy = 30;
     public final static int playerShootingCooldown = 150;
 
     // BULLET CONSTANTS
