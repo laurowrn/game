@@ -33,7 +33,7 @@ public abstract class MovingEntity extends Entity {
         this.setEnergy(this.energy - energyLoss);
     }
 
-    public void move(int step) {
+    public void move() {
         switch (direction) {
         case UP:
             this.y = this.y - step;
@@ -73,4 +73,10 @@ public abstract class MovingEntity extends Entity {
             return Direction.RIGHT;
         }
     }
+    
+    //Toda entidade que se move é obrigada a implementar colisões com todas as entidades do jogo
+    public abstract void checkCollisionWith(Player player);
+    public abstract void checkCollisionWith(Bullet bullet);
+    public abstract void checkCollisionWith(Obstacle obstacle);
+    public abstract void checkCollisionWith(Battlefield battlefield);
 }

@@ -2,6 +2,8 @@ package controller;
 
 import java.util.LinkedList;
 
+import model.MovingEntity;
+import model.StaticEntity;
 import model.Battlefield;
 import model.Bullet;
 import model.Entity;
@@ -10,98 +12,94 @@ import model.Player;
 import utils.Constants;
 
 public class GameController {
-    private LinkedList<Player> players = new LinkedList<Player>();
-    private LinkedList<Bullet> bullets = new LinkedList<Bullet>();
-    private LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
-    private Battlefield battlefield;
-    private LinkedList<Entity> entities = new LinkedList<Entity>();
+	
+    //private LinkedList<Entity> entities = new LinkedList<Entity>();
 
+    private LinkedList<MovingEntity> movingEntities = new LinkedList<MovingEntity>();
+    private LinkedList<Entity> staticEntities = new LinkedList<Entity>();
+    
     public LinkedList<Entity> getEntities() {
-        return this.entities;
+    	LinkedList<Entity> entities = new LinkedList<Entity>();
+    	 entities.addAll(staticEntities);
+    	 entities.addAll(movingEntities);
+        return entities;
     }
 
-    public void refreshEntities() {
-        LinkedList<Entity> newEntities = new LinkedList<Entity>();
-        newEntities.add(battlefield);
-        newEntities.addAll(players);
-        newEntities.addAll(obstacles);
-        newEntities.addAll(bullets);
-        this.entities = newEntities;
-    }
+//    public void refreshEntities() {
+//        LinkedList<Entity> newEntities = new LinkedList<Entity>();
+//          newEntities.addAll(staticEntities);
+//          newEntities.addAll(movingEntities);
+//        this.entities = newEntities;
+//    }
 
     public void createEntites() {
+        this.staticEntities.add(new Battlefield(10, 10));
+        this.staticEntities.add(new Obstacle(100, 100));
+        this.staticEntities.add(new Obstacle(600, 100));
+        this.staticEntities.add(new Obstacle(100, 500));
+        this.staticEntities.add(new Obstacle(600, 500));
+        this.staticEntities.add(new Obstacle(350, 350));
 
-        this.battlefield = new Battlefield(10, 10);
-        this.obstacles.add(new Obstacle(100, 100));
-        this.obstacles.add(new Obstacle(600, 100));
-        this.obstacles.add(new Obstacle(100, 500));
-        this.obstacles.add(new Obstacle(600, 500));
-        this.obstacles.add(new Obstacle(350, 350));
+        this.movingEntities.add(new Player(250, 150, 0));
+        this.movingEntities.add(new Player(250, 220, 1));
+        this.movingEntities.add(new Player(250, 290, 2));
+        this.movingEntities.add(new Player(250, 360, 3));
+        this.movingEntities.add(new Player(250, 430, 4));
 
-        this.players.add(new Player(250, 150, 0));
-        this.players.add(new Player(250, 220, 1));
-        this.players.add(new Player(250, 290, 2));
-        this.players.add(new Player(250, 360, 3));
-        this.players.add(new Player(250, 430, 4));
-
-        this.players.add(new Player(480, 150, 5));
-        this.players.add(new Player(480, 220, 6));
-        this.players.add(new Player(480, 290, 7));
-        this.players.add(new Player(480, 360, 8));
-        this.players.add(new Player(480, 430, 9));
+        this.movingEntities.add(new Player(480, 150, 5));
+        this.movingEntities.add(new Player(480, 220, 6));
+        this.movingEntities.add(new Player(480, 290, 7));
+        this.movingEntities.add(new Player(480, 360, 8));
+        this.movingEntities.add(new Player(480, 430, 9));
 
     }
 
     public void allPlayersShoot() {
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).shoot(this.bullets);
+        for (int i = 0; i < movingEntities.size(); i++) {
+        	Class<? extends Entity> EntityClass = movingEntities.get(i).getClass();
+        	if (EntityClass == Player.class) {
+        		((Player) movingEntities.get(i)).shoot(this.movingEntities);
+        	}
         }
     }
 
     public void moveAll() {
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).move(Constants.playerStep);
-        }
-        for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).move(Constants.bulletStep);
-        }
-        refreshEntities();
+    	 for (int i = 0; i < movingEntities.size(); i++) {
+           movingEntities.get(i).move();
+       }
+       // refreshEntities();
     }
 
-    public void checkCollisions() {
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).checkCollisionWith(battlefield);
-            for (int j = 0; j < obstacles.size(); j++) {
-                players.get(i).checkCollisionWith(obstacles.get(j));
-            }
-            for (int j = 0; j < players.size(); j++) {
-                if (j != i) {
-                    players.get(i).checkCollisionWith(players.get(j));
-                }
-            }
-            for (int j = 0; j < bullets.size(); j++) {
-                players.get(i).checkCollisionWith(bullets.get(j));
-            }
-        }
-        for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).checkCollisionWith(battlefield);
-            for (int j = 0; j < obstacles.size(); j++) {
-                bullets.get(i).checkCollisionWith(obstacles.get(j));
-            }
-        }
+    public void checkCollisions(){
+		for (int i = 0; i < movingEntities.size(); i++) {
+			// checa colisao com entidades estaticas
+			for (int j = 0; j < staticEntities.size(); j++) {
+				Class<? extends Entity> EntityClass = staticEntities.get(j).getClass();
+				if (EntityClass == Battlefield.class) {
+					movingEntities.get(i).checkCollisionWith((Battlefield) staticEntities.get(j));
+				} else if (EntityClass == Obstacle.class) {
+					movingEntities.get(i).checkCollisionWith((Obstacle) staticEntities.get(j));
+				}
+			}
 
-    }
+			// checa colisao com entidades moveis
+			for (int j = i + 1; j < movingEntities.size(); j++) {
+				Class<? extends Entity> EntityClass = movingEntities.get(j).getClass();
+				if (EntityClass == Player.class) {
+					movingEntities.get(i).checkCollisionWith((Player) movingEntities.get(j));
+				} else if (EntityClass == Bullet.class) {
+					movingEntities.get(i).checkCollisionWith((Bullet) movingEntities.get(j));
+				}
+			}
+		}
+	}
 
     public void removeDeadMovingEntities() {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getEnergy() <= 0) {
-                players.remove(i);
-            }
-        }
-        for (int i = 0; i < bullets.size(); i++) {
-            if (bullets.get(i).getEnergy() <= 0) {
-                bullets.remove(i);
-            }
-        }
+    	
+    	 for (int i = 0; i < movingEntities.size(); i++) {
+           if (movingEntities.get(i).getEnergy() <= 0) {
+        	   movingEntities.remove(i);
+         }
+       }            
     }
 }

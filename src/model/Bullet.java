@@ -46,4 +46,15 @@ public class Bullet extends MovingEntity {
         g.fillRect(x, y, width, height);
     }
 
+	@Override
+	public void checkCollisionWith(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void checkCollisionWith(Bullet bullet) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

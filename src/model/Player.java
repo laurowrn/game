@@ -59,11 +59,11 @@ public class Player extends MovingEntity {
     public void checkCollisionWith(Player player) {
         if (this.intersects(player)) {
             this.setDirection(getOppositeDirection(this.direction));
-            this.move(this.step + ricochetStep);
+            this.move(ricochetStep);
             this.setDirection(this.getRandomDirection());
 
             player.setDirection(getOppositeDirection(player.getDirection()));
-            player.move(this.step + ricochetStep);
+            player.move(ricochetStep);
             this.setDirection(this.getRandomDirection());
 
             this.loseEnergy(Constants.collisioWithPlayerLoss);
@@ -81,7 +81,7 @@ public class Player extends MovingEntity {
     public void checkCollisionWith(Obstacle obstacle) {
         if (this.intersects(obstacle)) {
             this.setDirection(getOppositeDirection(this.direction));
-            this.move(this.step + ricochetStep);
+            this.move(ricochetStep);
             this.setDirection(this.getRandomDirection());
             this.loseEnergy(Constants.collisioWithObstacleLoss);
         }
@@ -93,7 +93,7 @@ public class Player extends MovingEntity {
                 || this.y + this.height >= battlefield.getY() + battlefield.getHeight()) {
 
             this.setDirection(getOppositeDirection(this.direction));
-            this.move(this.step + ricochetStep);
+            this.move(ricochetStep);
             this.setDirection(this.getRandomDirection());
         }
     }
@@ -114,7 +114,7 @@ public class Player extends MovingEntity {
         }
     }
 
-    public void shoot(LinkedList<Bullet> shots) {
+    public void shoot(LinkedList<MovingEntity> shots) {
         if (this.shootingCooldown == Constants.playerShootingCooldown) {
             reduceShootingCooldown();
             shots.add(new Bullet(getBulletX(), getBulletY(), this.direction, Constants.bulletStep, this.id));
@@ -164,5 +164,24 @@ public class Player extends MovingEntity {
         g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         g.setColor(Color.yellow);
         g.drawString(Integer.toString(this.energy), x + 10, y + ((int) this.getHeight()) + 15);
+    }
+    
+    //Sobrecarga do metodo move() para adicionar ricochetstep
+    // anda o mesmo que o move() somado a um step adicional addStep
+    public void move(int addStep) {
+        switch (direction) {
+        case UP:
+            this.y = this.y - (this.step + addStep);
+            break;
+        case RIGHT:
+            this.x = this.x + (this.step + addStep);
+            break;
+        case DOWN:
+            this.y = this.y + (this.step + addStep);
+            break;
+        case LEFT:
+            this.x = this.x - (this.step + addStep);
+            break;
+        }
     }
 }
