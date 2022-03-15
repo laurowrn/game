@@ -32,7 +32,6 @@ public class Battlefield extends StaticEntity {
 
     @Override
     public void draw(Graphics2D g, JPanel observer) {
-        // g.drawRect(this.x, this.y, this.width, this.height);
         g.drawImage(image, x, y, observer);
     }
 }

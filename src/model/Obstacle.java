@@ -34,7 +34,7 @@ public class Obstacle extends StaticEntity {
     @Override
     public void draw(Graphics2D g, JPanel observer) {
 
-        g.drawImage(image, x, y, null);
+        g.drawImage(image, x, y, observer);
 
     }
 }

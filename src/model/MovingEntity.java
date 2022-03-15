@@ -2,7 +2,7 @@ package model;
 
 import java.util.Random;
 
-public abstract class MovingEntity extends Entity {
+public abstract class MovingEntity extends Entity implements Movable, Collidible {
     protected Direction direction = Direction.RIGHT;
     protected int step;
     protected int energy;
@@ -33,6 +33,7 @@ public abstract class MovingEntity extends Entity {
         this.setEnergy(this.energy - energyLoss);
     }
 
+    @Override
     public void move() {
         switch (direction) {
         case UP:
@@ -48,7 +49,6 @@ public abstract class MovingEntity extends Entity {
             this.x = this.x - step;
             break;
         }
-
     }
 
     public Direction getRandomDirection() {
@@ -73,12 +73,4 @@ public abstract class MovingEntity extends Entity {
             return Direction.RIGHT;
         }
     }
-
-    public abstract void checkCollisionWith(Player player);
-
-    public abstract void checkCollisionWith(Bullet bullet);
-
-    public abstract void checkCollisionWith(Obstacle obstacle);
-
-    public abstract void checkCollisionWith(Battlefield battlefield);
 }
